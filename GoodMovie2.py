@@ -21,7 +21,7 @@ for one in testingData:
   features_test.append(one[:-1])
   values_test.append(one[-1])
 
-clf = DecisionTreeClassifier(random_state=0)
+clf = DecisionTreeClassifier(random_state = 0, criterion='entropy')
 clf.fit(features, values)
 
 prediction = clf.predict(features_test)
@@ -49,11 +49,3 @@ print "True negatives = {}".format(TN)
 print "False positives = {}".format(FP)
 print "False negatives = {}".format(FN)
 print "Error rate = {}".format(err)
-
-
-
-
-
-
-
-

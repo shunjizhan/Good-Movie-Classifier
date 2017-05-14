@@ -1,2 +1,2 @@
 all:
-	python GoodMovie.py training.txt test3.txt
+	python GoodMovie2.py training.txt test1.txt
