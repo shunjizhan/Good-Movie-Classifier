@@ -105,10 +105,10 @@ for i in range (0, N):
 err = (FN + FP) * 1.0 / N
 
 print ("True positives = ", format(TP))
-print ("True negatives = ".format(TN))
-print ("False positives = ".format(FP))
-print ("False negatives = ".format(FN))
-print ("Error rate = ".format(err))
+print ("True negatives = ", format(TN))
+print ("False positives = ", format(FP))
+print ("False negatives = ", format(FN))
+print ("Error rate = ", format(err))
 
 
 
