@@ -84,11 +84,7 @@ for one in testingData:
 clf = DecisionTreeClassifier(random_state=0)
 clf.fit(features, values)
 
-# prediction = clf.predict(features_test)
-prediction = []
-for i in range (0, len(features)):
-  # prediction.append(decision_tree_predict(features[i]))
-  prediction.append(ranking_tree_predict(features[i]))
+prediction = clf.predict(features_test)
 
 N = len(prediction)
 TP = 0
@@ -108,36 +104,11 @@ for i in range (0, N):
       FN += 1
 err = (FN + FP) * 1.0 / N
 
-# print "True positives = {}".format(TP)
-# print "True negatives = {}".format(TN)
-# print "False positives = {}".format(FP)
-# print "False negatives = {}".format(FN)
-# print "Error rate = {}".format(err)
-
-err = 0.0
-N = len(values)
-for i in range(0, N):
-  for j in range(i, N):
-    p1 = prediction[i]
-    p2 = prediction[j]
-    r1 = values[i]
-    r2 = values[j]
-    if (r1 == r2 and p1 != p2):
-      err += 1
-    elif (r1 == "1" and r2 == "0"):
-      if (p1 > p2):
-        err += 1
-      if (p1 == p2):
-        err += 0.5
-    else:
-      if (p1 < p2):
-        err += 1
-      if (p1 == p2):
-        err += 0.5
-
-print values
-print prediction
-print err / N / (N-1)
+print "True positives = {}".format(TP)
+print "True negatives = {}".format(TN)
+print "False positives = {}".format(FP)
+print "False negatives = {}".format(FN)
+print "Error rate = {}".format(err)
 
 
 
