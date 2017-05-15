@@ -5,6 +5,7 @@ def readFile(filename):
   lines = [line.rstrip('\n').rstrip('\r').split(' ')[1:] for line in open(filename)]
   return lines
 
+# this is for problem #2
 def decision_tree_predict(features):
   budget = features[0]
   genre = features[1]
@@ -34,6 +35,36 @@ def decision_tree_predict(features):
       else:
         return "1"
 
+# this is for problem #3
+def ranking_tree_predict(features):
+  budget = features[0]
+  genre = features[1]
+  actor = features[2]
+  director = features[3]
+  if (genre == "0"):    # documentary
+    if (budget == "0"):
+      return 4
+    else:
+      return 2
+  elif (genre == "1"):  # Drama
+    if (budget == "0"):
+      if (actor == "1"):
+        return 3
+      else:
+        return 1
+    else:
+      return 1
+  else:                 # comedy
+    if(director == "0"):
+      return 4
+    else:
+      if (budget == "0"):
+        return 1
+      if (budget == "1"):
+        return 3
+      else:
+        return 1
+
 #~~ main ~~#
 trainingData = readFile(sys.argv[1])[1:]
 testingData = readFile(sys.argv[2])[1:]
@@ -55,8 +86,9 @@ clf.fit(features, values)
 
 # prediction = clf.predict(features_test)
 prediction = []
-for i in range (0, len(features_test)):
-  prediction.append(decision_tree_predict(features_test[i]))
+for i in range (0, len(features)):
+  # prediction.append(decision_tree_predict(features[i]))
+  prediction.append(ranking_tree_predict(features[i]))
 
 N = len(prediction)
 TP = 0
@@ -82,19 +114,30 @@ err = (FN + FP) * 1.0 / N
 # print "False negatives = {}".format(FN)
 # print "Error rate = {}".format(err)
 
-same = []
-correct = 0
-for i in range(0, len(values_test)):
-  if (values_test[i] == prediction[i]):
-    same.append('1')
-    correct += 1
-  else:
-    same.append('0')
+err = 0.0
+N = len(values)
+for i in range(0, N):
+  for j in range(i, N):
+    p1 = prediction[i]
+    p2 = prediction[j]
+    r1 = values[i]
+    r2 = values[j]
+    if (r1 == r2 and p1 != p2):
+      err += 1
+    elif (r1 == "1" and r2 == "0"):
+      if (p1 > p2):
+        err += 1
+      if (p1 == p2):
+        err += 0.5
+    else:
+      if (p1 < p2):
+        err += 1
+      if (p1 == p2):
+        err += 0.5
 
-print values_test
+print values
 print prediction
-print same
-print correct * 1.0 / len(values_test)
+print err / N / (N-1)
 
 
 
